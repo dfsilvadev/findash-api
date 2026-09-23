@@ -6,21 +6,31 @@
   "scripts": {
     "prepare": "husky",
     "start:dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "start": "node --enable-source-maps dist/server.js",
     "type:check": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
-    "format:check": "prettier . --check"
+    "format:check": "prettier . --check",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:reset": "prisma migrate reset",
+    "prisma:studio": "prisma studio",
+    "prisma:format": "prisma format",
+    "docker:up": "docker compose up -d --wait",
+    "docker:down": "docker compose down",
+    "docker:build": "docker build -t findash-api ."
   },
   "keywords": [],
-  "author": "",
+  "author": "Daniel Silva",
   "license": "ISC",
   "type": "module",
   "engines": {
     "node": ">=20"
   },
+  "packageManager": "pnpm@10.17.1",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/express": "^5.0.6",
@@ -30,20 +40,16 @@
     "husky": "^9.1.7",
     "lint-staged": "^17.5.1",
     "prettier": "3.9.8",
+    "prisma": "7.10.0",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.1"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0",
     "dotenv": "^18.0.3",
     "express": "^5.2.1",
     "zod": "^4.6.5"
-  },
-  "lint-staged": {
-    "*.{ts,js}": [
-      "eslint --fix --max-warnings=0",
-      "prettier --write"
-    ],
-    "*.{json,md,yml,yaml}": "prettier --write"
   }
 }
