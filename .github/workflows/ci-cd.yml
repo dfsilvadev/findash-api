@@ -22,17 +22,18 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
+      - run: corepack enable
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci
-      - run: npx prisma validate
-      - run: npx prisma generate
-      - run: npm run format:check
-      - run: npm run lint
-      - run: npm run typecheck
-      - run: npm run build
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm prisma validate
+      - run: pnpm prisma generate
+      - run: pnpm run format:check
+      - run: pnpm run lint
+      - run: pnpm run type:check
+      - run: pnpm run build
 
   database:
     name: Migrations
@@ -54,15 +55,16 @@ jobs:
           --health-retries 10
     steps:
       - uses: actions/checkout@v7
+      - run: corepack enable
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - name: Apply all migrations to an empty database
-        run: npx prisma migrate deploy
+        run: pnpm prisma migrate deploy
       - name: Fail if schema changed without a migration
-        run: npx prisma migrate diff --from-config-datasource --to-schema prisma/ --exit-code
+        run: pnpm prisma migrate diff --from-config-datasource --to-schema prisma/ --exit-code
 
   docker:
     name: Docker image
@@ -107,13 +109,14 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v7
+      - run: corepack enable
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - name: Run database migrations
-        run: npx prisma migrate deploy
+        run: pnpm prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - name: Deploy new image
