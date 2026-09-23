@@ -27,7 +27,10 @@ const envSchema = z.object({
           .map((s) => s.trim())
           .filter(Boolean)
       )
-  )
+  ),
+  DB_POOL_MAX: z.coerce.number().int().positive().default(10),
+  DB_CONNECTION_TIMEOUT_MS: z.coerce.number().int().positive().default(5_000),
+  DB_STATEMENT_TIMEOUT_MS: z.coerce.number().int().positive().default(15_000)
 });
 
 const _parsed = envSchema.safeParse(process.env);
