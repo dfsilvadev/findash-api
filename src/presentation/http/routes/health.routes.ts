@@ -1,7 +1,7 @@
 import { Router } from "express";
 
-import { logger } from "../../lib/logger.js";
-import { prisma } from "../../lib/prisma.js";
+import { logger } from "../../../infrastructure/logger/logger.js";
+import { prisma } from "../../../infrastructure/persistence/prisma/prisma.js";
 
 export const healthRouter: Router = Router();
 

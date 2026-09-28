@@ -5,8 +5,8 @@ import express, {
   type Response
 } from "express";
 
-import { router } from "./application/routes/router.js";
-import { logger } from "./lib/logger.js";
+import { logger } from "./infrastructure/logger/logger.js";
+import { router } from "./presentation/http/routes/router.js";
 
 export function createApp(): Express {
   const app = express();
