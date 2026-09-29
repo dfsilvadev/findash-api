@@ -6,9 +6,16 @@ import type {
 import { prisma } from "../prisma.js";
 
 export class PrismaUserRepository implements UserRepository {
-  async create(input: CreateUserInput): Promise<User> {
-    const createdUser = await prisma.user.create({ data: input });
+  async findByEmail(email: string): Promise<User | null> {
+    const row = await prisma.user.findUnique({ where: { email } });
+    return row;
+  }
 
-    return createdUser;
+  async create(input: CreateUserInput): Promise<User> {
+    const row = await prisma.user.create({
+      data: { ...input, passwordHash: input.password }
+    });
+
+    return row;
   }
 }

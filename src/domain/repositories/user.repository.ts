@@ -4,9 +4,10 @@ export interface CreateUserInput {
   firstName: string;
   lastName?: string;
   email: string;
-  passwordHash: string;
+  password: string;
 }
 
 export interface UserRepository {
   create(input: CreateUserInput): Promise<User>;
+  findByEmail(email: string): Promise<User | null>;
 }
