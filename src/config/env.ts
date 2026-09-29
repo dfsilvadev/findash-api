@@ -3,6 +3,8 @@ import { z } from "zod";
 
 dotenv.config({ quiet: true });
 
+const SALT_ROUNDS = 10;
+
 const envSchema = z.object({
   PORT: z.coerce.number().default(3000),
   NODE_ENV: z.enum(["development", "test", "production"]).default("production"),
@@ -14,6 +16,7 @@ const envSchema = z.object({
       (url) => url.startsWith("postgresql://") || url.startsWith("postgres://"),
       "DATABASE_URL must start with postgresql:// or postgres://"
     ),
+  PASSWORD_SALT_ROUNDS: z.coerce.number().min(4).max(15).default(SALT_ROUNDS),
   CORS_ORIGINS: z.preprocess(
     (value) => (value === "" ? undefined : value),
     z
