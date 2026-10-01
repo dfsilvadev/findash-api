@@ -21,7 +21,7 @@ export function createApp(): Express {
   /**
    * Routes
    */
-  app.use(router);
+  app.use("/api/v1", router);
   app.use((_req, res) => {
     res.status(404).json({ error: "Not Found" });
   });
