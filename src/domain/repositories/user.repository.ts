@@ -8,6 +8,6 @@ import type {
 export interface UserRepository {
   create(input: CreateUserInput): Promise<User>;
   findByEmail(email: string): Promise<User | null>;
-  findById(id: string): Promise<User | null>;
+  findById(id: string): Promise<UserResponse | null>;
   findAll(params: ListUsersParams): Promise<UserResponse[]>;
 }

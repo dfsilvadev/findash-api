@@ -6,6 +6,8 @@ import {
   type ListUsersParams,
   type UserResponse
 } from "../../../../domain/entities/user.entity.js";
+import { userWithoutCredentialsSelect } from "../utils/constants/user-select.js";
+
 import type { UserRepository } from "../../../../domain/repositories/user.repository.js";
 import type { User } from "../../../../generated/prisma/client.js";
 
@@ -22,16 +24,7 @@ export class PrismaUserRepository implements UserRepository {
 
     const rows = await prisma.user.findMany({
       where: whereClause,
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        status: true,
-        createdAt: true,
-        updatedAt: true,
-        deletedAt: true
-      },
+      select: { ...userWithoutCredentialsSelect },
       orderBy: {
         createdAt: order
       }
@@ -40,8 +33,11 @@ export class PrismaUserRepository implements UserRepository {
     return rows;
   }
 
-  async findById(id: string): Promise<User | null> {
-    const row = await prisma.user.findUnique({ where: { id } });
+  async findById(id: string): Promise<UserResponse | null> {
+    const row = await prisma.user.findUnique({
+      where: { id },
+      select: { ...userWithoutCredentialsSelect }
+    });
     return row;
   }
 
