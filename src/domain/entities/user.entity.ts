@@ -1,13 +1,20 @@
-export type UserStatus = "ACTIVE" | "SUSPENDED";
+import type { User, UserStatus } from "../../generated/prisma/client.js";
 
-export interface User {
-  id: string;
+export interface CreateUserInput {
   firstName: string;
-  lastName: string | null;
+  lastName?: string;
   email: string;
-  passwordHash: string;
-  status: UserStatus;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date | null;
+  password: string;
+}
+
+export type UserResponse = Omit<User, "passwordHash">;
+
+export enum SortOrder {
+  ASC = "asc",
+  DESC = "desc"
+}
+
+export interface ListUsersParams {
+  status?: UserStatus;
+  order: SortOrder | undefined;
 }
