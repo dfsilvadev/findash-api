@@ -14,7 +14,7 @@ export class GetUserByIdController implements Controller {
       const userResponse = await this.getUserByIdUseCase.execute(dto.userId);
       return {
         statusCode: 200,
-        body: userResponse
+        body: { user: userResponse }
       };
     } catch (error) {
       return toHttpResponse(error);

@@ -20,7 +20,7 @@ export class ListUsersController implements Controller {
 
       return {
         statusCode: 200,
-        body: users
+        body: { users }
       };
     } catch (error) {
       return toHttpResponse(error);
