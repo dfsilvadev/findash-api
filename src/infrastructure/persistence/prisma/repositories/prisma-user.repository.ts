@@ -4,6 +4,7 @@ import {
   SortOrder,
   type CreateUserInput,
   type ListUsersParams,
+  type UpdateUserInput,
   type UserResponse
 } from "../../../../domain/entities/user.entity.js";
 import { userWithoutCredentialsSelect } from "../utils/constants/user-select.js";
@@ -50,6 +51,19 @@ export class PrismaUserRepository implements UserRepository {
     const { password, ...rest } = input;
     const row = await prisma.user.create({
       data: { ...rest, passwordHash: password }
+    });
+
+    return row;
+  }
+
+  async update(
+    id: string,
+    input: Partial<UpdateUserInput>
+  ): Promise<UserResponse> {
+    const row = await prisma.user.update({
+      where: { id },
+      data: input,
+      select: { ...userWithoutCredentialsSelect }
     });
 
     return row;

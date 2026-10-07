@@ -7,6 +7,8 @@ export interface CreateUserInput {
   password: string;
 }
 
+export type UpdateUserInput = Partial<Omit<CreateUserInput, "password">>;
+
 export type UserResponse = Omit<User, "passwordHash">;
 
 export enum SortOrder {
