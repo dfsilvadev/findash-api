@@ -10,9 +10,18 @@ import {
 import { userWithoutCredentialsSelect } from "../utils/constants/user-select.js";
 
 import type { UserRepository } from "../../../../domain/repositories/user.repository.js";
-import type { User } from "../../../../generated/prisma/client.js";
+import type { User, UserStatus } from "../../../../generated/prisma/client.js";
 
 export class PrismaUserRepository implements UserRepository {
+  async updateStatus(id: string, status: UserStatus): Promise<UserResponse> {
+    const row = await prisma.user.update({
+      where: { id },
+      data: { status },
+      select: { ...userWithoutCredentialsSelect }
+    });
+    return row;
+  }
+
   async findAll({
     status,
     order = SortOrder.ASC
