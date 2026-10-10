@@ -1,6 +1,7 @@
 enum UserStatus {
   ACTIVE
   SUSPENDED
+  DELETED
 
   @@map("user_status")
 }
