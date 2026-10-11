@@ -5,3 +5,6 @@ pnpm-lock.yaml
 src/generated
 coverage
 *.log
+
+# Prisma
+src/generated/

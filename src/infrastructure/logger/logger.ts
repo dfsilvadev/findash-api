@@ -1,4 +1,5 @@
-import { env } from "../config/env.js";
+/* eslint-disable no-console */
+import { env } from "../../config/env.js";
 
 const levels = { debug: 10, info: 20, warn: 30, error: 40 } as const;
 type Level = keyof typeof levels;

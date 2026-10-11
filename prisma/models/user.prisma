@@ -1,0 +1,17 @@
+model User {
+  id           String     @id @default(uuid(7)) @db.Uuid
+  firstName    String     @map("first_name") @db.VarChar(150)
+  lastName     String?    @map("last_name") @db.VarChar(150)
+  email        String     @db.VarChar(255)
+  passwordHash String     @map("password_hash") @db.VarChar(255)
+  status       UserStatus @default(ACTIVE)
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+  deletedAt    DateTime?  @map("deleted_at") @db.Timestamptz(3)
+
+  categories   Category[]
+  transactions Transaction[]
+
+  @@unique([email], map: "users_email_active_key", where: { deletedAt: null })
+  @@map("users")
+}

@@ -1,0 +1,18 @@
+model Category {
+  id          String       @id @default(uuid(7)) @db.Uuid
+  name        String       @db.VarChar(150)
+  description String?      @db.VarChar(255)
+  type        CategoryType
+  assetClass  AssetClass?  @map("asset_class")
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
+  archivedAt  DateTime?    @map("archived_at") @db.Timestamptz(3)
+  userId      String       @map("user_id") @db.Uuid
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@unique([id, userId, type])
+  @@unique([userId, name])
+  @@map("categories")
+}

@@ -1,0 +1,22 @@
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+
+  @@map("user_status")
+}
+
+enum CategoryType {
+  INCOME
+  EXPENSE
+  INVESTMENT
+
+  @@map("category_type")
+}
+
+enum AssetClass {
+  FIXED_INCOME
+  VARIABLE_INCOME
+
+  @@map("asset_class")
+}

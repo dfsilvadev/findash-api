@@ -1,0 +1,19 @@
+model Transaction {
+  id          String       @id @default(uuid(7)) @db.Uuid
+  title       String       @db.VarChar(150)
+  description String?      @db.VarChar(255)
+  amount      Decimal      @db.Decimal(10, 2)
+  type        CategoryType
+  date        DateTime     @db.Timestamptz(3)
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
+  userId      String       @map("user_id") @db.Uuid
+  categoryId  String       @map("category_id") @db.Uuid
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId, userId, type], references: [id, userId, type], onDelete: Restrict, onUpdate: Restrict)
+
+  @@index([userId, date(sort: Desc)])
+  @@index([categoryId])
+  @@map("transactions")
+}
