@@ -52,7 +52,7 @@ export class PrismaUserRepository implements UserRepository {
   }
 
   async findById(id: string): Promise<UserResponse | null> {
-const row = await prisma.user.findFirst({
+    const row = await prisma.user.findFirst({
       where: { id, deletedAt: null },
       select: { ...userWithoutCredentialsSelect }
     });
