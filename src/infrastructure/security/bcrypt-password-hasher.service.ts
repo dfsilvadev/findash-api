@@ -29,7 +29,6 @@ export class BcryptPasswordHasherService implements PasswordHasherService {
         error: error instanceof Error ? error.message : "Unknown error"
       });
       throw new Error("Failed to compare password", { cause: error });
-      return false;
     }
   }
 }
