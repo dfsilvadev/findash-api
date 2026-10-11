@@ -64,7 +64,7 @@ jobs:
       - name: Apply all migrations to an empty database
         run: pnpm prisma migrate deploy
       - name: Fail if schema changed without a migration
-        run: pnpm prisma migrate diff --from-config-datasource --to-schema-datamodel prisma/ --exit-code
+        run: pnpm prisma migrate diff --from-config-datasource --to-schema prisma/ --exit-code
 
   docker:
     name: Docker image
