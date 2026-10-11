@@ -31,8 +31,9 @@ export function toHttpResponse(error: unknown): HttpResponse {
     };
   }
 
-  if (error instanceof Error)
+if (error instanceof Error) {
     logger.error("[HTTP Error Mapper] Unknown error:", { error });
+  }
 
   return {
     statusCode: 500,
