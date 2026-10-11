@@ -10,9 +10,17 @@ import {
 import { userWithoutCredentialsSelect } from "../utils/constants/user-select.js";
 
 import type { UserRepository } from "../../../../domain/repositories/user.repository.js";
-import type { User, UserStatus } from "../../../../generated/prisma/client.js";
+import type { UserStatus } from "../../../../generated/prisma/client.js";
+import { type User } from "../../../../generated/prisma/client.js";
 
 export class PrismaUserRepository implements UserRepository {
+  async delete(id: string): Promise<void> {
+    await prisma.user.update({
+      where: { id },
+      data: { deletedAt: new Date(), status: "DELETED" }
+    });
+  }
+
   async updateStatus(id: string, status: UserStatus): Promise<UserResponse> {
     const row = await prisma.user.update({
       where: { id },
