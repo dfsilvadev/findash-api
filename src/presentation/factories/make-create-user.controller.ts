@@ -1,4 +1,4 @@
-import { CreateUserController } from "../http/controllers/create-user.controller.js";
+import { CreateUserController } from "../http/controllers/users/create-user.controller.js";
 
 import { makeCreateUserUseCase } from "../../infrastructure/factories/make-create-user.use-case.js";
 

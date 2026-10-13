@@ -1,4 +1,4 @@
-import { DeleteUserController } from "../http/controllers/delete-user.controller.js";
+import { DeleteUserController } from "../http/controllers/users/delete-user.controller.js";
 
 import { makeDeleteUserUseCase } from "../../infrastructure/factories/make-delete-user.use-case.js";
 

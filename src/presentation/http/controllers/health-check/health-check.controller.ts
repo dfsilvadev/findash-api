@@ -1,8 +1,8 @@
-import { logger } from "../../../infrastructure/logger/logger.js";
-import { prisma } from "../../../infrastructure/persistence/prisma/prisma.js";
+import { logger } from "../../../../infrastructure/logger/logger.js";
+import { prisma } from "../../../../infrastructure/persistence/prisma/prisma.js";
 
-import type { Controller } from "../../../domain/entities/controller.interface.js";
-import type { HttpRequest, HttpResponse } from "../types/http-types.js";
+import type { Controller } from "../../../../domain/entities/controller.interface.js";
+import type { HttpRequest, HttpResponse } from "../../types/http-types.js";
 
 export class HealthCheckController implements Controller {
   async handle(_request: HttpRequest): Promise<HttpResponse> {

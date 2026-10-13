@@ -1,11 +1,10 @@
-import { toHttpResponse } from "../errors/http-error-mapper.js";
+import { toHttpResponse } from "../../errors/http-error-mapper.js";
 
-import { listUsersValidator } from "../validators/list-users.validator.js";
+import { listUsersValidator } from "../../validators/users/list-users.validator.js";
 
-import type { ListUsersUseCase } from "../../../application/use-cases/list-users.use-case.js";
-import type { Controller } from "../../../domain/entities/controller.interface.js";
-import type { SortOrder } from "../../../domain/entities/user.entity.js";
-import type { HttpRequest, HttpResponse } from "../types/http-types.js";
+import type { ListUsersUseCase } from "../../../../application/use-cases/users/list-users.use-case.js";
+import type { Controller } from "../../../../domain/entities/controller.interface.js";
+import type { HttpRequest, HttpResponse } from "../../types/http-types.js";
 
 export class ListUsersController implements Controller {
   constructor(private readonly listUsersUseCase: ListUsersUseCase) {}
@@ -15,7 +14,7 @@ export class ListUsersController implements Controller {
 
       const users = await this.listUsersUseCase.execute({
         status: dto.status,
-        order: dto.order as SortOrder
+        order: dto.order
       });
 
       return {

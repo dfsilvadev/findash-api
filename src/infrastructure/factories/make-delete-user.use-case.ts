@@ -1,4 +1,4 @@
-import { DeleteUserUseCase } from "../../application/use-cases/delete-user.use-case.js";
+import { DeleteUserUseCase } from "../../application/use-cases/users/delete-user.use-case.js";
 
 import { makeUserRepository } from "./make-user.repository.js";
 

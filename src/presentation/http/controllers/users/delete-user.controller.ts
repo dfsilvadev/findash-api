@@ -1,10 +1,10 @@
-import { deleteUserValidator } from "../validators/delete-user.validator.js";
+import { deleteUserValidator } from "../../validators/users/delete-user.validator.js";
 
-import { toHttpResponse } from "../errors/http-error-mapper.js";
+import { toHttpResponse } from "../../errors/http-error-mapper.js";
 
-import type { DeleteUserUseCase } from "../../../application/use-cases/delete-user.use-case.js";
-import type { Controller } from "../../../domain/entities/controller.interface.js";
-import type { HttpRequest, HttpResponse } from "../types/http-types.js";
+import type { DeleteUserUseCase } from "../../../../application/use-cases/users/delete-user.use-case.js";
+import type { Controller } from "../../../../domain/entities/controller.interface.js";
+import type { HttpRequest, HttpResponse } from "../../types/http-types.js";
 
 export class DeleteUserController implements Controller {
   constructor(private readonly deleteUserUseCase: DeleteUserUseCase) {}

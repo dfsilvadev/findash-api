@@ -1,13 +1,16 @@
-import { CanNotUpdateSuspendedUserError } from "../../domain/errors/can-not-update-suspended-user.error.js";
-import { EmailAlreadyInUseError } from "../../domain/errors/email-already-in-use.error.js";
-import { UserDoesNotExistError } from "../../domain/errors/user-does-not-exist.error.js";
+import { CanNotUpdateSuspendedUserError } from "../../../domain/errors/can-not-update-suspended-user.error.js";
+import { EmailAlreadyInUseError } from "../../../domain/errors/email-already-in-use.error.js";
+import { UserDoesNotExistError } from "../../../domain/errors/user-does-not-exist.error.js";
 
 import type {
   UpdateUserInput,
   UserResponse
-} from "../../domain/entities/user.entity.js";
-import type { UserRepository } from "../../domain/repositories/user.repository.js";
-import type { UpdateUserInputDto, UserId } from "../dtos/update-user.dto.js";
+} from "../../../domain/entities/user.entity.js";
+import type { UserRepository } from "../../../domain/repositories/user.repository.js";
+import type {
+  UpdateUserInputDto,
+  UserId
+} from "../../dtos/users/update-user.dto.js";
 
 export class UpdateUserUseCase {
   constructor(private readonly userRepository: UserRepository) {}

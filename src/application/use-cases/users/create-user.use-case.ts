@@ -1,8 +1,8 @@
-import { UserAlreadyExistsError } from "../../domain/errors/user-already-exists.error.js";
+import { UserAlreadyExistsError } from "../../../domain/errors/user-already-exists.error.js";
 
-import type { UserRepository } from "../../domain/repositories/user.repository.js";
-import type { PasswordHasherService } from "../../domain/services/password-hasher.service.js";
-import type { CreateUserDto } from "../dtos/create-user.dto.js";
+import type { UserRepository } from "../../../domain/repositories/user.repository.js";
+import type { PasswordHasherService } from "../../../domain/services/password-hasher.service.js";
+import type { CreateUserDto } from "../../dtos/users/create-user.dto.js";
 
 export class CreateUserUseCase {
   constructor(

@@ -1,14 +1,13 @@
-import type { UpdateUserUseCase } from "../../../application/use-cases/update-user.use-case.js";
-
-import { toHttpResponse } from "../errors/http-error-mapper.js";
+import { toHttpResponse } from "../../errors/http-error-mapper.js";
 
 import {
   updateUserBodyValidator,
   updateUserIdValidator
-} from "../validators/update-user.validator.js";
+} from "../../validators/users/update-user.validator.js";
 
-import type { Controller } from "../../../domain/entities/controller.interface.js";
-import type { HttpRequest, HttpResponse } from "../types/http-types.js";
+import type { UpdateUserUseCase } from "../../../../application/use-cases/users/update-user.use-case.js";
+import type { Controller } from "../../../../domain/entities/controller.interface.js";
+import type { HttpRequest, HttpResponse } from "../../types/http-types.js";
 
 export class UpdateUserController implements Controller {
   constructor(private readonly updateUserUseCase: UpdateUserUseCase) {}

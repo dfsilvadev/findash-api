@@ -1,13 +1,13 @@
+import { toHttpResponse } from "../../errors/http-error-mapper.js";
+
 import {
   updateUserStatusParamsValidator,
   updateUserStatusValidator
-} from "../validators/update-user-status.validator.js";
+} from "../../validators/users/update-user-status.validator.js";
 
-import { toHttpResponse } from "../errors/http-error-mapper.js";
-
-import type { UpdateUserStatusUseCase } from "../../../application/use-cases/update-user-status.use-case.js";
-import type { Controller } from "../../../domain/entities/controller.interface.js";
-import type { HttpRequest, HttpResponse } from "../types/http-types.js";
+import type { UpdateUserStatusUseCase } from "../../../../application/use-cases/users/update-user-status.use-case.js";
+import type { Controller } from "../../../../domain/entities/controller.interface.js";
+import type { HttpRequest, HttpResponse } from "../../types/http-types.js";
 
 export class UpdateUserStatusController implements Controller {
   constructor(

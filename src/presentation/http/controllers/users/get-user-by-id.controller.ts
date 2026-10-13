@@ -1,8 +1,10 @@
-import type { GetUserByIdUseCase } from "../../../application/use-cases/get-user-by-id.use-case.js";
-import type { Controller } from "../../../domain/entities/controller.interface.js";
-import { toHttpResponse } from "../errors/http-error-mapper.js";
-import type { HttpRequest, HttpResponse } from "../types/http-types.js";
-import { getUserByIdValidator } from "../validators/get-user-by-id.validator.js";
+import { toHttpResponse } from "../../errors/http-error-mapper.js";
+
+import { getUserByIdValidator } from "../../validators/users/get-user-by-id.validator.js";
+
+import type { GetUserByIdUseCase } from "../../../../application/use-cases/users/get-user-by-id.use-case.js";
+import type { Controller } from "../../../../domain/entities/controller.interface.js";
+import type { HttpRequest, HttpResponse } from "../../types/http-types.js";
 
 export class GetUserByIdController implements Controller {
   constructor(private readonly getUserByIdUseCase: GetUserByIdUseCase) {}

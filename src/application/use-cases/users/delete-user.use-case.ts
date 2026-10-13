@@ -1,7 +1,7 @@
-import { UserDoesNotExistError } from "../../domain/errors/user-does-not-exist.error.js";
+import { UserDoesNotExistError } from "../../../domain/errors/user-does-not-exist.error.js";
 
-import type { UserRepository } from "../../domain/repositories/user.repository.js";
-import type { UserIdToDeleteDto } from "../dtos/delete-user.dto.js";
+import type { UserRepository } from "../../../domain/repositories/user.repository.js";
+import type { UserIdToDeleteDto } from "../../dtos/users/delete-user.dto.js";
 
 export class DeleteUserUseCase {
   constructor(private readonly userRepository: UserRepository) {}

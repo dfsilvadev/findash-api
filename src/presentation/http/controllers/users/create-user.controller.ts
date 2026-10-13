@@ -1,10 +1,10 @@
-import { createUserValidator } from "../validators/create-user.validator.js";
+import { createUserValidator } from "../../validators/users/create-user.validator.js";
 
-import { toHttpResponse } from "../errors/http-error-mapper.js";
+import { toHttpResponse } from "../../errors/http-error-mapper.js";
 
-import type { CreateUserUseCase } from "../../../application/use-cases/create-user.use-case.js";
-import type { Controller } from "../../../domain/entities/controller.interface.js";
-import type { HttpRequest, HttpResponse } from "../types/http-types.js";
+import type { CreateUserUseCase } from "../../../../application/use-cases/users/create-user.use-case.js";
+import type { Controller } from "../../../../domain/entities/controller.interface.js";
+import type { HttpRequest, HttpResponse } from "../../types/http-types.js";
 
 export class CreateUserController implements Controller {
   constructor(private readonly createUserUseCase: CreateUserUseCase) {}

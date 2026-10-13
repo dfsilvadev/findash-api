@@ -1,4 +1,4 @@
-import { UpdateUserController } from "../http/controllers/update-user.controller.js";
+import { UpdateUserController } from "../http/controllers/users/update-user.controller.js";
 
 import { makeUpdateUserUseCase } from "../../infrastructure/factories/make-update-user.use-case.js";
 

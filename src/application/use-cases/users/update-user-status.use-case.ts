@@ -1,7 +1,10 @@
-import { UserDoesNotExistError } from "../../domain/errors/user-does-not-exist.error.js";
+import { UserDoesNotExistError } from "../../../domain/errors/user-does-not-exist.error.js";
 
-import type { UserRepository } from "../../domain/repositories/user.repository.js";
-import type { UserId, UserStatusDto } from "../dtos/update-user-status.dto.js";
+import type { UserRepository } from "../../../domain/repositories/user.repository.js";
+import type {
+  UserId,
+  UserStatusDto
+} from "../../dtos/users/update-user-status.dto.js";
 
 export class UpdateUserStatusUseCase {
   constructor(private readonly userRepository: UserRepository) {}

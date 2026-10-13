@@ -1,7 +1,7 @@
-import { UserDoesNotExistError } from "../../domain/errors/user-does-not-exist.error.js";
+import { UserDoesNotExistError } from "../../../domain/errors/user-does-not-exist.error.js";
 
-import type { PrismaUserRepository } from "../../infrastructure/persistence/prisma/repositories/prisma-user.repository.js";
-import type { UserResponseDto } from "../dtos/get-user-by-id.dto.js";
+import type { PrismaUserRepository } from "../../../infrastructure/persistence/prisma/repositories/prisma-user.repository.js";
+import type { UserResponseDto } from "../../dtos/users/get-user-by-id.dto.js";
 
 export class GetUserByIdUseCase {
   constructor(private readonly userRepository: PrismaUserRepository) {}
