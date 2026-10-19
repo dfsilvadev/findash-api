@@ -1,6 +1,6 @@
 model Category {
   id          String       @id @default(uuid(7)) @db.Uuid
-  name        String       @db.VarChar(150)
+  name        String       @db.Citext
   description String?      @db.VarChar(255)
   type        CategoryType
   assetClass  AssetClass?  @map("asset_class")
