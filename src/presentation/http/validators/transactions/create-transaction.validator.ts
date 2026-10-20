@@ -5,7 +5,7 @@ export const createTransactionValidator = z.object({
   description: z.string().optional(),
   amount: z.coerce.number().positive(),
   type: z.enum(["INCOME", "EXPENSE", "INVESTMENT"]),
-  date: z.date(),
+  date: z.coerce.date(),
   userId: z.uuid(),
   categoryId: z.uuid()
 });
