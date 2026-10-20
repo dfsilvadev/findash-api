@@ -1,7 +1,7 @@
-import { CreateTransactionUseCase } from "../../application/use-cases/transactions/create-transaction.use-case.js";
+import { CreateTransactionUseCase } from "../../../application/use-cases/transactions/create-transaction.use-case.js";
 
+import { makeUserRepository } from "../users/make-user.repository.js";
 import { makeTransactionRepository } from "./make-transaction.repository.js";
-import { makeUserRepository } from "./make-user.repository.js";
 
 export function makeCreateTransactionUseCase() {
   const userRepository = makeUserRepository();

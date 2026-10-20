@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { routerAdapter } from "../adapters/router.adapter.js";
 
-import { makeCreateCategoryController } from "../../factories/make-create-category.controller.js";
+import { makeCreateCategoryController } from "../../factories/categories/make-create-category.controller.js";
 
 export const categoryRouter: Router = Router();
 

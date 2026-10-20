@@ -1,4 +1,4 @@
-import { CreateUserUseCase } from "../../application/use-cases/users/create-user.use-case.js";
+import { CreateUserUseCase } from "../../../application/use-cases/users/create-user.use-case.js";
 
 import { makePasswordHasher } from "./make-password.hasher.js";
 import { makeUserRepository } from "./make-user.repository.js";

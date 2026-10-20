@@ -1,7 +1,7 @@
-import { CreateCategoryUseCase } from "../../application/use-cases/categories/create-category.use-case.js";
+import { CreateCategoryUseCase } from "../../../application/use-cases/categories/create-category.use-case.js";
 
+import { makeUserRepository } from "../users/make-user.repository.js";
 import { makeCategoryRepository } from "./make-category.repository.js";
-import { makeUserRepository } from "./make-user.repository.js";
 
 export function makeCreateCategoryUseCase() {
   const categoryRepository = makeCategoryRepository();

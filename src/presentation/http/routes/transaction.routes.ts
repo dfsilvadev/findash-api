@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { routerAdapter } from "../adapters/router.adapter.js";
 
-import { makeCreateTransactionController } from "../../factories/make-create-transaction.controller.js";
+import { makeCreateTransactionController } from "../../factories/transactions/make-create-transaction.controller.js";
 
 export const transactionRouter: Router = Router();
 

@@ -1,4 +1,4 @@
-import { UpdateUserStatusUseCase } from "../../application/use-cases/users/update-user-status.use-case.js";
+import { UpdateUserStatusUseCase } from "../../../application/use-cases/users/update-user-status.use-case.js";
 
 import { makeUserRepository } from "./make-user.repository.js";
 
