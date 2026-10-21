@@ -13,4 +13,13 @@ export class PrismaTransactionRepository implements TransactionRepository {
     });
     return row;
   }
+
+  async listByUserId(userId: string): Promise<TransactionResponse[]> {
+    const rows = await prisma.transaction.findMany({
+      where: {
+        userId: userId
+      }
+    });
+    return rows;
+  }
 }

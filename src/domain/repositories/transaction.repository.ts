@@ -5,4 +5,5 @@ import type {
 
 export interface TransactionRepository {
   create(input: CreateTransactionInput): Promise<TransactionResponse>;
+  listByUserId(userId: string): Promise<TransactionResponse[]>;
 }
