@@ -19,7 +19,7 @@ export class CreateTransactionController implements Controller {
 
       return {
         statusCode: 201,
-        body: { message: "Transaction created successfully." }
+        body: { message: "Transaction created successfully" }
       };
     } catch (error) {
       return toHttpResponse(error);
