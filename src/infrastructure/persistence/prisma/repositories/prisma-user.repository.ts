@@ -21,6 +21,7 @@ export class PrismaUserRepository implements UserRepository {
     });
   }
 
+  // TODO: Remove UserStatus enum and use string instead
   async updateStatus(id: string, status: UserStatus): Promise<UserResponse> {
     const row = await prisma.user.update({
       where: { id },
@@ -60,7 +61,7 @@ export class PrismaUserRepository implements UserRepository {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const row = await prisma.user.findUnique({ where: { email } });
+    const row = await prisma.user.findUnique({ where: { email } }); // TODO: Change to select user using findFirst with deletedAt null
     return row;
   }
 
