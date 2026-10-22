@@ -2,6 +2,8 @@ import { prisma } from "../prisma.js";
 
 import type {
   CreateTransactionInput,
+  ListTransactionsByUserIdInput,
+  PaginatedTransactions,
   TransactionResponse
 } from "../../../../domain/entities/transaction.entity.js";
 import type { TransactionRepository } from "../../../../domain/repositories/transaction.repository.js";
@@ -19,12 +21,24 @@ export class PrismaTransactionRepository implements TransactionRepository {
     return toTransactionResponse(row);
   }
 
-  async listByUserId(userId: string): Promise<TransactionResponse[]> {
-    const rows = await prisma.transaction.findMany({
-      where: {
-        userId: userId
-      }
-    });
-    return rows.map(toTransactionResponse);
+  async listByUserId({
+    userId,
+    page,
+    limit,
+    orderBy
+  }: ListTransactionsByUserIdInput): Promise<PaginatedTransactions> {
+    const where = { userId };
+
+    const [rows, total] = await prisma.$transaction([
+      prisma.transaction.findMany({
+        where,
+        orderBy: [{ date: orderBy }, { id: orderBy }],
+        skip: (page - 1) * limit,
+        take: limit
+      }),
+      prisma.transaction.count({ where })
+    ]);
+
+    return { items: rows.map(toTransactionResponse), total };
   }
 }

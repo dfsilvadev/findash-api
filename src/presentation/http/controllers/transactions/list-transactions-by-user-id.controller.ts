@@ -1,4 +1,4 @@
-import { listTransactionsByUserIdQueryValidator } from "../../validators/transactions/list-transactions-by-user-id.validator.js";
+import { listTransactionsByUserIdQueryParamsValidator } from "../../validators/transactions/list-transactions-by-user-id.validator.js";
 
 import { toHttpResponse } from "../../errors/http-error-mapper.js";
 
@@ -13,16 +13,14 @@ export class ListTransactionsByUserIdController implements Controller {
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const { userId } = listTransactionsByUserIdQueryValidator.parse(
+      const query = listTransactionsByUserIdQueryParamsValidator.parse(
         request.query
       );
-      const transactions = await this.listTransactionsByUserIdUseCase.execute({
-        userId
-      });
+      const result = await this.listTransactionsByUserIdUseCase.execute(query);
 
       return {
         statusCode: 200,
-        body: { transactions }
+        body: result
       };
     } catch (error) {
       return toHttpResponse(error);

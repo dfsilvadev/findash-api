@@ -13,6 +13,20 @@ export type TransactionResponse = {
 
 export type TransactionType = "INCOME" | "EXPENSE" | "INVESTMENT";
 
+export type SortOrder = "asc" | "desc";
+
+export interface ListTransactionsByUserIdInput {
+  userId: string;
+  page: number;
+  limit: number;
+  orderBy: SortOrder;
+}
+
+export interface PaginatedTransactions {
+  items: TransactionResponse[];
+  total: number;
+}
+
 export interface CreateTransactionInput {
   title: string;
   description?: string;
