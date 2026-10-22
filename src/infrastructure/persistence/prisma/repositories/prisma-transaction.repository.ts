@@ -5,13 +5,18 @@ import type {
   TransactionResponse
 } from "../../../../domain/entities/transaction.entity.js";
 import type { TransactionRepository } from "../../../../domain/repositories/transaction.repository.js";
+import type { Transaction } from "../../../../generated/prisma/client.js";
+
+function toTransactionResponse(row: Transaction): TransactionResponse {
+  return { ...row, amount: row.amount.toNumber() };
+}
 
 export class PrismaTransactionRepository implements TransactionRepository {
   async create(input: CreateTransactionInput): Promise<TransactionResponse> {
     const row = await prisma.transaction.create({
       data: input
     });
-    return row;
+    return toTransactionResponse(row);
   }
 
   async listByUserId(userId: string): Promise<TransactionResponse[]> {
@@ -20,6 +25,6 @@ export class PrismaTransactionRepository implements TransactionRepository {
         userId: userId
       }
     });
-    return rows;
+    return rows.map(toTransactionResponse);
   }
 }

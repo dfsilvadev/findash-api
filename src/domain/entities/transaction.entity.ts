@@ -1,10 +1,8 @@
-import type { Prisma } from "../../generated/prisma/client.js";
-
 export type TransactionResponse = {
   id: string;
   title: string;
   description: string | null;
-  amount: Prisma.Decimal;
+  amount: number;
   type: TransactionType;
   date: Date;
   userId: string;
