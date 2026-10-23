@@ -4,6 +4,7 @@ import { routerAdapter } from "../adapters/router.adapter.js";
 
 import { makeCreateTransactionController } from "../../factories/transactions/make-create-transaction.controller.js";
 import { makeListTransactionsByUserIdController } from "../../factories/transactions/make-list-transactions-by-user-id.controller.js";
+import { makeUpdateTransactionController } from "../../factories/transactions/make-update-transaction.controller.js";
 
 export const transactionRouter: Router = Router();
 
@@ -19,3 +20,11 @@ transactionRouter.get(
  * Route to create a new transaction
  */
 transactionRouter.post("/", routerAdapter(makeCreateTransactionController()));
+
+/**
+ * Route to update an existing transaction
+ */
+transactionRouter.patch(
+  "/:userId/:transactionId",
+  routerAdapter(makeUpdateTransactionController())
+);

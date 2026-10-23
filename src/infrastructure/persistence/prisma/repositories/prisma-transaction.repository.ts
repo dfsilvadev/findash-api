@@ -1,10 +1,15 @@
 import { prisma } from "../prisma.js";
 
+import { TransactionDoesNotExistError } from "../../../../domain/errors/transaction-does-not-exist.error.js";
+import { Prisma } from "../../../../generated/prisma/client.js";
+
 import type {
   CreateTransactionInput,
   ListTransactionsByUserIdInput,
   PaginatedTransactions,
-  TransactionResponse
+  TransactionOwnerKey,
+  TransactionResponse,
+  UpdateTransactionInput
 } from "../../../../domain/entities/transaction.entity.js";
 import type { TransactionRepository } from "../../../../domain/repositories/transaction.repository.js";
 import type { Transaction } from "../../../../generated/prisma/client.js";
@@ -40,5 +45,36 @@ export class PrismaTransactionRepository implements TransactionRepository {
     ]);
 
     return { items: rows.map(toTransactionResponse), total };
+  }
+
+  async update(
+    { transactionId, userId }: TransactionOwnerKey,
+    input: UpdateTransactionInput
+  ): Promise<TransactionResponse> {
+    try {
+      const row = await prisma.transaction.update({
+        where: { id: transactionId, userId },
+        data: input
+      });
+      return toTransactionResponse(row);
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2025"
+      ) {
+        throw new TransactionDoesNotExistError(transactionId);
+      }
+      throw error;
+    }
+  }
+
+  async findByIdAndUserId({
+    transactionId,
+    userId
+  }: TransactionOwnerKey): Promise<TransactionResponse | null> {
+    const row = await prisma.transaction.findFirst({
+      where: { id: transactionId, userId }
+    });
+    return row ? toTransactionResponse(row) : null;
   }
 }

@@ -2,7 +2,9 @@ import type {
   CreateTransactionInput,
   ListTransactionsByUserIdInput,
   PaginatedTransactions,
-  TransactionResponse
+  TransactionOwnerKey,
+  TransactionResponse,
+  UpdateTransactionInput
 } from "../entities/transaction.entity.js";
 
 export interface TransactionRepository {
@@ -10,4 +12,11 @@ export interface TransactionRepository {
   listByUserId(
     input: ListTransactionsByUserIdInput
   ): Promise<PaginatedTransactions>;
+  update(
+    key: TransactionOwnerKey,
+    input: UpdateTransactionInput
+  ): Promise<TransactionResponse>;
+  findByIdAndUserId(
+    key: TransactionOwnerKey
+  ): Promise<TransactionResponse | null>;
 }

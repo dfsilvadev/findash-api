@@ -10,6 +10,11 @@ export interface CreateCategoryInput {
   userId: string;
 }
 
+export interface CategoryOwnerKey {
+  categoryId: string;
+  userId: string;
+}
+
 export interface CategoryResponse {
   id: string;
   name: string;

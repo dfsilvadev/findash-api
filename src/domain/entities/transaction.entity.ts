@@ -36,3 +36,14 @@ export interface CreateTransactionInput {
   userId: string;
   categoryId: string;
 }
+
+export interface TransactionOwnerKey {
+  transactionId: string;
+  userId: string;
+}
+
+export type UpdateTransactionInput = Partial<
+  Omit<CreateTransactionInput, "userId" | "description">
+> & {
+  description?: string | null;
+};
