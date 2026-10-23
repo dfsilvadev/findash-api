@@ -1,11 +1,11 @@
 import { DeleteTransactionUseCase } from "../../../application/use-cases/transactions/delete-transaction.use-case.js";
 
-import { makeUserRepository } from "../users/make-user.repository.js";
+import { makeAccountRepository } from "../accounts/make-account.repository.js";
 import { makeTransactionRepository } from "./make-transaction.repository.js";
 
 export function makeDeleteTransactionUseCase() {
   const transactionRepository = makeTransactionRepository();
-  const userRepository = makeUserRepository();
+  const accountRepository = makeAccountRepository();
 
-  return new DeleteTransactionUseCase(transactionRepository, userRepository);
+  return new DeleteTransactionUseCase(transactionRepository, accountRepository);
 }

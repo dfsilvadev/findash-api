@@ -1,4 +1,4 @@
 export interface TransactionOwnerKeyDto {
-  userId: string;
+  accountId: string;
   transactionId: string;
 }

@@ -1,6 +1,6 @@
 import type {
   CreateTransactionInput,
-  ListTransactionsByUserIdInput,
+  ListTransactionsByAccountIdInput,
   PaginatedTransactions,
   TransactionOwnerKey,
   TransactionResponse,
@@ -9,14 +9,14 @@ import type {
 
 export interface TransactionRepository {
   create(input: CreateTransactionInput): Promise<TransactionResponse>;
-  listByUserId(
-    input: ListTransactionsByUserIdInput
+  listByAccountId(
+    input: ListTransactionsByAccountIdInput
   ): Promise<PaginatedTransactions>;
   update(
     key: TransactionOwnerKey,
     input: UpdateTransactionInput
   ): Promise<TransactionResponse>;
-  findByIdAndUserId(
+  findByIdAndAccountId(
     key: TransactionOwnerKey
   ): Promise<TransactionResponse | null>;
   delete(key: TransactionOwnerKey): Promise<void>;

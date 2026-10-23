@@ -6,5 +6,5 @@ import type {
 
 export interface CategoryRepository {
   create(input: CreateCategoryInput): Promise<CategoryResponse>;
-  findByIdAndUserId(key: CategoryOwnerKey): Promise<CategoryResponse | null>;
+  findByIdAndAccountId(key: CategoryOwnerKey): Promise<CategoryResponse | null>;
 }

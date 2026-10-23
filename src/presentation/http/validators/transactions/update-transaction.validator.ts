@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createTransactionValidator } from "./create-transaction.validator.js";
 
 export const updateTransactionValidator = createTransactionValidator
-  .omit({ userId: true })
+  .omit({ accountId: true })
   .partial()
   .extend({
     description: createTransactionValidator.shape.description.nullable()
@@ -14,7 +14,7 @@ export const updateTransactionValidator = createTransactionValidator
 
 export const updateTransactionParamsValidator = z.object({
   transactionId: z.uuid(),
-  userId: z.uuid() // TODO: Use authentication context instead of passing userId directly
+  accountId: z.uuid() // TODO: Use authentication context instead of passing accountId directly
 });
 
 export type UpdateTransactionValidator = z.infer<

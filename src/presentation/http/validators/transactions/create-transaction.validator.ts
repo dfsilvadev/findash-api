@@ -12,7 +12,7 @@ export const createTransactionValidator = z.object({
   amount: z.number().positive().multipleOf(0.01).max(MAX_AMOUNT),
   type: z.enum(["INCOME", "EXPENSE", "INVESTMENT"]),
   date: transactionDate,
-  userId: z.uuid(),
+  accountId: z.uuid(),
   categoryId: z.uuid()
 });
 

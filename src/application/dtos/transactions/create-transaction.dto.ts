@@ -4,6 +4,6 @@ export interface CreateTransactionDto {
   amount: number;
   type: "INCOME" | "EXPENSE" | "INVESTMENT";
   date: Date;
-  userId: string;
+  accountId: string;
   categoryId: string;
 }

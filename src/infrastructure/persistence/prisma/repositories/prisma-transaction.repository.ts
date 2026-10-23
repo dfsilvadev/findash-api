@@ -5,7 +5,7 @@ import { Prisma } from "../../../../generated/prisma/client.js";
 
 import type {
   CreateTransactionInput,
-  ListTransactionsByUserIdInput,
+  ListTransactionsByAccountIdInput,
   PaginatedTransactions,
   TransactionOwnerKey,
   TransactionResponse,
@@ -14,25 +14,32 @@ import type {
 import type { TransactionRepository } from "../../../../domain/repositories/transaction.repository.js";
 import type { Transaction } from "../../../../generated/prisma/client.js";
 
-function toTransactionResponse(row: Transaction): TransactionResponse {
-  return { ...row, amount: row.amount.toNumber() };
+// The database column is still user_id (Prisma field userId); the domain calls it accountId
+function toTransactionResponse({
+  userId,
+  ...row
+}: Transaction): TransactionResponse {
+  return { ...row, accountId: userId, amount: row.amount.toNumber() };
 }
 
 export class PrismaTransactionRepository implements TransactionRepository {
-  async create(input: CreateTransactionInput): Promise<TransactionResponse> {
+  async create({
+    accountId,
+    ...input
+  }: CreateTransactionInput): Promise<TransactionResponse> {
     const row = await prisma.transaction.create({
-      data: input
+      data: { ...input, userId: accountId }
     });
     return toTransactionResponse(row);
   }
 
-  async listByUserId({
-    userId,
+  async listByAccountId({
+    accountId,
     page,
     limit,
     orderBy
-  }: ListTransactionsByUserIdInput): Promise<PaginatedTransactions> {
-    const where = { userId };
+  }: ListTransactionsByAccountIdInput): Promise<PaginatedTransactions> {
+    const where = { userId: accountId };
 
     const [rows, total] = await prisma.$transaction([
       prisma.transaction.findMany({
@@ -48,12 +55,12 @@ export class PrismaTransactionRepository implements TransactionRepository {
   }
 
   async update(
-    { transactionId, userId }: TransactionOwnerKey,
+    { transactionId, accountId }: TransactionOwnerKey,
     input: UpdateTransactionInput
   ): Promise<TransactionResponse> {
     try {
       const row = await prisma.transaction.update({
-        where: { id: transactionId, userId },
+        where: { id: transactionId, userId: accountId },
         data: input
       });
       return toTransactionResponse(row);
@@ -68,19 +75,22 @@ export class PrismaTransactionRepository implements TransactionRepository {
     }
   }
 
-  async findByIdAndUserId({
+  async findByIdAndAccountId({
     transactionId,
-    userId
+    accountId
   }: TransactionOwnerKey): Promise<TransactionResponse | null> {
     const row = await prisma.transaction.findFirst({
-      where: { id: transactionId, userId }
+      where: { id: transactionId, userId: accountId }
     });
     return row ? toTransactionResponse(row) : null;
   }
 
-  async delete({ transactionId, userId }: TransactionOwnerKey): Promise<void> {
+  async delete({
+    transactionId,
+    accountId
+  }: TransactionOwnerKey): Promise<void> {
     const { count } = await prisma.transaction.deleteMany({
-      where: { id: transactionId, userId }
+      where: { id: transactionId, userId: accountId }
     });
     if (count === 0) throw new TransactionDoesNotExistError(transactionId);
   }

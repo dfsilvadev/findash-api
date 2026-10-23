@@ -5,7 +5,7 @@ export type TransactionResponse = {
   amount: number;
   type: TransactionType;
   date: Date;
-  userId: string;
+  accountId: string;
   categoryId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -15,8 +15,8 @@ export type TransactionType = "INCOME" | "EXPENSE" | "INVESTMENT";
 
 export type SortOrder = "asc" | "desc";
 
-export interface ListTransactionsByUserIdInput {
-  userId: string;
+export interface ListTransactionsByAccountIdInput {
+  accountId: string;
   page: number;
   limit: number;
   orderBy: SortOrder;
@@ -33,17 +33,17 @@ export interface CreateTransactionInput {
   amount: number;
   type: TransactionType;
   date: Date;
-  userId: string;
+  accountId: string;
   categoryId: string;
 }
 
 export interface TransactionOwnerKey {
   transactionId: string;
-  userId: string;
+  accountId: string;
 }
 
 export type UpdateTransactionInput = Partial<
-  Omit<CreateTransactionInput, "userId" | "description">
+  Omit<CreateTransactionInput, "accountId" | "description">
 > & {
   description?: string | null;
 };

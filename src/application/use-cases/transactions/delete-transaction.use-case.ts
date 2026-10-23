@@ -1,25 +1,25 @@
+import { AccountDoesNotExistError } from "../../../domain/errors/account-does-not-exist.error.js";
 import { TransactionDoesNotExistError } from "../../../domain/errors/transaction-does-not-exist.error.js";
-import { UserDoesNotExistError } from "../../../domain/errors/user-does-not-exist.error.js";
 
+import type { AccountRepository } from "../../../domain/repositories/account.repository.js";
 import type { TransactionRepository } from "../../../domain/repositories/transaction.repository.js";
-import type { UserRepository } from "../../../domain/repositories/user.repository.js";
 import type { TransactionOwnerKeyDto } from "../../dtos/transactions/delete-transaction.dto.js";
 
 export class DeleteTransactionUseCase {
   constructor(
     private readonly transactionRepository: TransactionRepository,
-    private readonly userRepository: UserRepository
+    private readonly accountRepository: AccountRepository
   ) {}
 
   async execute(key: TransactionOwnerKeyDto): Promise<void> {
-    const { transactionId, userId } = key;
+    const { transactionId, accountId } = key;
 
-    const user = await this.userRepository.findById(userId);
-    if (!user) throw new UserDoesNotExistError(userId);
+    const account = await this.accountRepository.findById(accountId);
+    if (!account) throw new AccountDoesNotExistError(accountId);
 
-    const transaction = await this.transactionRepository.findByIdAndUserId({
+    const transaction = await this.transactionRepository.findByIdAndAccountId({
       transactionId,
-      userId
+      accountId
     });
     if (!transaction) throw new TransactionDoesNotExistError(transactionId);
 

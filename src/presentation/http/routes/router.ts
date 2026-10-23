@@ -1,9 +1,9 @@
 import { Router } from "express";
 
+import { accountRouter } from "./account.routes.js";
 import { categoryRouter } from "./category.routes.js";
 import { healthRouter } from "./health.routes.js";
 import { transactionRouter } from "./transaction.routes.js";
-import { userRouter } from "./user.routes.js";
 
 const router = Router();
 
@@ -12,7 +12,7 @@ const router = Router();
  *
  */
 router.use("/health", healthRouter);
-router.use("/users", userRouter);
+router.use("/accounts", accountRouter);
 router.use("/transactions", transactionRouter);
 router.use("/categories", categoryRouter);
 export { router };

@@ -1,5 +1,5 @@
 export interface UpdateTransactionDto {
-  userId: string; // TODO: Use authentication context instead of passing userId directly
+  accountId: string; // TODO: Use authentication context instead of passing accountId directly
   transactionId: string;
   title?: string;
   description?: string | null;

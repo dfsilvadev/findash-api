@@ -13,10 +13,10 @@ export class DeleteTransactionController implements Controller {
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const { transactionId, userId } = deleteTransactionValidator.parse(
+      const { transactionId, accountId } = deleteTransactionValidator.parse(
         request.body
       );
-      await this.deleteTransactionUseCase.execute({ transactionId, userId });
+      await this.deleteTransactionUseCase.execute({ transactionId, accountId });
 
       return {
         statusCode: 200,
