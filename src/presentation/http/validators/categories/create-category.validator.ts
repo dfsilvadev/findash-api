@@ -5,7 +5,7 @@ export const createCategoryValidator = z.object({
   description: z.string().optional(),
   type: z.enum(["INCOME", "EXPENSE", "INVESTMENT"]),
   assetClass: z.enum(["FIXED_INCOME", "VARIABLE_INCOME"]).optional(),
-  userId: z.uuid("Invalid user ID")
+  accountId: z.uuid("Invalid account ID")
 });
 
 export type CreateCategoryValidator = z.infer<typeof createCategoryValidator>;

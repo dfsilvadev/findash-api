@@ -7,7 +7,12 @@ export interface CreateCategoryInput {
   description?: string;
   type: CategoryType;
   assetClass?: AssetClass;
-  userId: string;
+  accountId: string;
+}
+
+export interface CategoryOwnerKey {
+  categoryId: string;
+  accountId: string;
 }
 
 export interface CategoryResponse {
@@ -16,7 +21,7 @@ export interface CategoryResponse {
   description?: string | null;
   type: CategoryType;
   assetClass?: AssetClass | null;
-  userId: string;
+  accountId: string;
   createdAt: Date;
   updatedAt: Date;
   archivedAt?: Date | null;

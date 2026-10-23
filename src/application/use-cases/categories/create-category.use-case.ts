@@ -1,20 +1,20 @@
-import { UserDoesNotExistError } from "../../../domain/errors/user-does-not-exist.error.js";
+import { AccountDoesNotExistError } from "../../../domain/errors/account-does-not-exist.error.js";
 
+import type { AccountRepository } from "../../../domain/repositories/account.repository.js";
 import type { CategoryRepository } from "../../../domain/repositories/category.repository.js";
-import type { UserRepository } from "../../../domain/repositories/user.repository.js";
 import type { CreateCategoryInputDto } from "../../dtos/categories/create-category.dto.js";
 
 export class CreateCategoryUseCase {
   constructor(
     private readonly categoryRepository: CategoryRepository,
-    private readonly userRepository: UserRepository
+    private readonly accountRepository: AccountRepository
   ) {}
 
   async execute(input: CreateCategoryInputDto): Promise<void> {
-    const { userId } = input;
+    const { accountId } = input;
 
-    const userExists = await this.userRepository.findById(userId);
-    if (!userExists) throw new UserDoesNotExistError(userId);
+    const accountExists = await this.accountRepository.findById(accountId);
+    if (!accountExists) throw new AccountDoesNotExistError(accountId);
 
     await this.categoryRepository.create(input);
   }
