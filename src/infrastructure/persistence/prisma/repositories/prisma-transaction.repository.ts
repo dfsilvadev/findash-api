@@ -77,4 +77,11 @@ export class PrismaTransactionRepository implements TransactionRepository {
     });
     return row ? toTransactionResponse(row) : null;
   }
+
+  async delete({ transactionId, userId }: TransactionOwnerKey): Promise<void> {
+    const { count } = await prisma.transaction.deleteMany({
+      where: { id: transactionId, userId }
+    });
+    if (count === 0) throw new TransactionDoesNotExistError(transactionId);
+  }
 }

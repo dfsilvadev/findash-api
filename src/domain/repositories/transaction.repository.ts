@@ -19,4 +19,5 @@ export interface TransactionRepository {
   findByIdAndUserId(
     key: TransactionOwnerKey
   ): Promise<TransactionResponse | null>;
+  delete(key: TransactionOwnerKey): Promise<void>;
 }

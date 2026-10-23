@@ -3,6 +3,7 @@ import { Router } from "express";
 import { routerAdapter } from "../adapters/router.adapter.js";
 
 import { makeCreateTransactionController } from "../../factories/transactions/make-create-transaction.controller.js";
+import { makeDeleteTransactionController } from "../../factories/transactions/make-delete-transaction.controller.js";
 import { makeListTransactionsByUserIdController } from "../../factories/transactions/make-list-transactions-by-user-id.controller.js";
 import { makeUpdateTransactionController } from "../../factories/transactions/make-update-transaction.controller.js";
 
@@ -28,3 +29,8 @@ transactionRouter.patch(
   "/:userId/:transactionId",
   routerAdapter(makeUpdateTransactionController())
 );
+
+/**
+ * Route to delete a transaction
+ */
+transactionRouter.delete("/", routerAdapter(makeDeleteTransactionController()));
