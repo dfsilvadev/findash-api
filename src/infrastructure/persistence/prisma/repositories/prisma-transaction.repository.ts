@@ -9,6 +9,7 @@ import type {
   ListTransactionsByAccountIdParams,
   TransactionOwnerKey,
   TransactionRepository,
+  TransactionTotals,
   UpdateTransactionData
 } from "../../../../domain/repositories/transaction.repository.js";
 import type { Paginated } from "../../../../domain/shared/pagination.js";
@@ -84,5 +85,28 @@ export class PrismaTransactionRepository implements TransactionRepository {
       where: { id: transactionId, accountId }
     });
     if (count === 0) throw new TransactionDoesNotExistError(transactionId);
+  }
+
+  async getTotalsByAccountId(accountId: string): Promise<TransactionTotals> {
+    const groups = await prisma.transaction.groupBy({
+      by: ["type"],
+      where: { accountId },
+      _sum: { amount: true }
+    });
+
+    const totals: TransactionTotals = {
+      income: 0,
+      expenses: 0,
+      investments: 0
+    };
+
+    for (const group of groups) {
+      const sum = group._sum.amount?.toNumber() ?? 0;
+      if (group.type === "INCOME") totals.income = sum;
+      if (group.type === "EXPENSE") totals.expenses = sum;
+      if (group.type === "INVESTMENT") totals.investments = sum;
+    }
+
+    return totals;
   }
 }

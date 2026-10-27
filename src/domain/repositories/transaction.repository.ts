@@ -33,6 +33,12 @@ export interface ListTransactionsByAccountIdParams {
   order: SortOrder;
 }
 
+export interface TransactionTotals {
+  income: number;
+  expenses: number;
+  investments: number;
+}
+
 export interface TransactionRepository {
   create(data: CreateTransactionData): Promise<Transaction>;
   listByAccountId(
@@ -44,4 +50,5 @@ export interface TransactionRepository {
   ): Promise<Transaction>;
   findByIdAndAccountId(key: TransactionOwnerKey): Promise<Transaction | null>;
   delete(key: TransactionOwnerKey): Promise<void>;
+  getTotalsByAccountId(accountId: string): Promise<TransactionTotals>;
 }
