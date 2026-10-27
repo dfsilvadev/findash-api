@@ -1,4 +1,4 @@
-export interface CreateAccountBodyDto {
+export interface CreateAccountInput {
   readonly firstName: string;
   readonly lastName?: string;
   readonly email: string;

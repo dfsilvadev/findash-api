@@ -3,7 +3,7 @@ import { TransactionDoesNotExistError } from "../../../domain/errors/transaction
 
 import type { AccountRepository } from "../../../domain/repositories/account.repository.js";
 import type { TransactionRepository } from "../../../domain/repositories/transaction.repository.js";
-import type { TransactionOwnerKeyDto } from "../../dtos/transactions/delete-transaction.dto.js";
+import type { DeleteTransactionInput } from "../../dtos/transactions/delete-transaction.dto.js";
 
 export class DeleteTransactionUseCase {
   constructor(
@@ -11,18 +11,20 @@ export class DeleteTransactionUseCase {
     private readonly accountRepository: AccountRepository
   ) {}
 
-  async execute(key: TransactionOwnerKeyDto): Promise<void> {
-    const { transactionId, accountId } = key;
+  async execute(input: DeleteTransactionInput): Promise<void> {
+    const { transactionId, accountId } = input;
 
-    const account = await this.accountRepository.findById(accountId);
-    if (!account) throw new AccountDoesNotExistError(accountId);
+    const existingAccount = await this.accountRepository.findById(accountId);
+    if (!existingAccount) throw new AccountDoesNotExistError(accountId);
 
-    const transaction = await this.transactionRepository.findByIdAndAccountId({
-      transactionId,
-      accountId
-    });
-    if (!transaction) throw new TransactionDoesNotExistError(transactionId);
+    const existingTransaction =
+      await this.transactionRepository.findByIdAndAccountId({
+        transactionId,
+        accountId
+      });
+    if (!existingTransaction)
+      throw new TransactionDoesNotExistError(transactionId);
 
-    await this.transactionRepository.delete(key);
+    await this.transactionRepository.delete({ transactionId, accountId });
   }
 }

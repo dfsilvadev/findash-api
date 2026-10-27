@@ -2,7 +2,7 @@ import { AccountDoesNotExistError } from "../../../domain/errors/account-does-no
 
 import type { AccountRepository } from "../../../domain/repositories/account.repository.js";
 import type { CategoryRepository } from "../../../domain/repositories/category.repository.js";
-import type { CreateCategoryInputDto } from "../../dtos/categories/create-category.dto.js";
+import type { CreateCategoryInput } from "../../dtos/categories/create-category.dto.js";
 
 export class CreateCategoryUseCase {
   constructor(
@@ -10,11 +10,11 @@ export class CreateCategoryUseCase {
     private readonly accountRepository: AccountRepository
   ) {}
 
-  async execute(input: CreateCategoryInputDto): Promise<void> {
+  async execute(input: CreateCategoryInput): Promise<void> {
     const { accountId } = input;
 
-    const accountExists = await this.accountRepository.findById(accountId);
-    if (!accountExists) throw new AccountDoesNotExistError(accountId);
+    const existingAccount = await this.accountRepository.findById(accountId);
+    if (!existingAccount) throw new AccountDoesNotExistError(accountId);
 
     await this.categoryRepository.create(input);
   }

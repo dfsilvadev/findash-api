@@ -1,10 +1,9 @@
-import type { User } from "../../generated/prisma/client.js";
-
 export const AccountStatus = {
   ACTIVE: "ACTIVE",
   SUSPENDED: "SUSPENDED",
   DELETED: "DELETED"
 } as const;
+
 export type AccountStatus = (typeof AccountStatus)[keyof typeof AccountStatus];
 
 export type NonDeletedAccountStatus = Exclude<
@@ -12,27 +11,16 @@ export type NonDeletedAccountStatus = Exclude<
   typeof AccountStatus.DELETED
 >;
 
-export type AccountEntity = User;
-
-export interface CreateAccountBodyInput {
+export interface Account {
+  id: string;
   firstName: string;
-  lastName?: string;
+  lastName: string | null;
   email: string;
-  password: string;
+  passwordHash: string;
+  status: AccountStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date | null;
 }
 
-export type UpdateAccountBodyInput = Partial<
-  Omit<CreateAccountBodyInput, "password">
->;
-
-export type AccountResponse = Omit<AccountEntity, "passwordHash">;
-
-export enum AccountSortOrder {
-  ASC = "asc",
-  DESC = "desc"
-}
-
-export interface ListAccountsParams {
-  status?: AccountStatus;
-  order: AccountSortOrder | undefined;
-}
+export type AccountWithoutCredentials = Omit<Account, "passwordHash">;

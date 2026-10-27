@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const deleteAccountValidator = z.object({
+export const deleteAccountSchema = z.object({
   accountId: z.uuid()
 });
 
-export type DeleteAccountDto = z.infer<typeof deleteAccountValidator>;
+export type DeleteAccountSchema = z.infer<typeof deleteAccountSchema>;

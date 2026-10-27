@@ -1,14 +1,13 @@
-import type {
-  AccountResponse,
-  ListAccountsParams
-} from "../../../domain/entities/account.entity.js";
-import type { PrismaAccountRepository } from "../../../infrastructure/persistence/prisma/repositories/prisma-account.repository.js";
+import type { AccountWithoutCredentials } from "../../../domain/entities/account.entity.js";
+import type { AccountRepository } from "../../../domain/repositories/account.repository.js";
+import type { ListAccountsInput } from "../../dtos/accounts/list-accounts.dto.js";
 
 export class ListAccountsUseCase {
-  constructor(private readonly accountRepository: PrismaAccountRepository) {}
+  constructor(private readonly accountRepository: AccountRepository) {}
 
-  async execute(params: ListAccountsParams): Promise<AccountResponse[]> {
-    const accounts = await this.accountRepository.findAll(params);
-    return accounts;
+  async execute(
+    input: ListAccountsInput
+  ): Promise<AccountWithoutCredentials[]> {
+    return this.accountRepository.findAll(input);
   }
 }

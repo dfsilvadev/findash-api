@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const getAccountByIdValidator = z.object({
+export const getAccountByIdSchema = z.object({
   accountId: z.uuid()
 });
 
-export type GetAccountByIdValidator = z.infer<typeof getAccountByIdValidator>;
+export type GetAccountByIdSchema = z.infer<typeof getAccountByIdSchema>;

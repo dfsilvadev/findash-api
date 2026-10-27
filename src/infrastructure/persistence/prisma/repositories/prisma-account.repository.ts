@@ -1,34 +1,38 @@
 import { prisma } from "../prisma.js";
 
-import {
-  AccountSortOrder,
-  type AccountResponse,
-  type CreateAccountBodyInput,
-  type ListAccountsParams,
-  type NonDeletedAccountStatus,
-  type UpdateAccountBodyInput
-} from "../../../../domain/entities/account.entity.js";
+import { AccountStatus } from "../../../../domain/entities/account.entity.js";
+import { SortOrder } from "../../../../domain/shared/sort-order.js";
 import { accountWithoutCredentialsSelect } from "../utils/constants/account-select.js";
 
-import type { AccountRepository } from "../../../../domain/repositories/account.repository.js";
+import type {
+  Account,
+  AccountWithoutCredentials,
+  NonDeletedAccountStatus
+} from "../../../../domain/entities/account.entity.js";
+import type {
+  AccountRepository,
+  CreateAccountData,
+  ListAccountsParams,
+  UpdateAccountData
+} from "../../../../domain/repositories/account.repository.js";
 
 export class PrismaAccountRepository implements AccountRepository {
-  async create(input: CreateAccountBodyInput): Promise<AccountResponse> {
-    const { password, ...rest } = input;
+  async create(data: CreateAccountData): Promise<AccountWithoutCredentials> {
     const row = await prisma.user.create({
-      data: { ...rest, passwordHash: password }
+      data,
+      select: { ...accountWithoutCredentialsSelect }
     });
 
     return row;
   }
 
   async update(
-    id: string,
-    input: Partial<UpdateAccountBodyInput>
-  ): Promise<AccountResponse> {
+    accountId: string,
+    data: UpdateAccountData
+  ): Promise<AccountWithoutCredentials> {
     const row = await prisma.user.update({
-      where: { id },
-      data: input,
+      where: { id: accountId },
+      data,
       select: { ...accountWithoutCredentialsSelect }
     });
 
@@ -36,11 +40,11 @@ export class PrismaAccountRepository implements AccountRepository {
   }
 
   async updateStatus(
-    id: string,
+    accountId: string,
     status: NonDeletedAccountStatus
-  ): Promise<AccountResponse> {
+  ): Promise<AccountWithoutCredentials> {
     const row = await prisma.user.update({
-      where: { id },
+      where: { id: accountId },
       data: { status },
       select: { ...accountWithoutCredentialsSelect }
     });
@@ -50,20 +54,20 @@ export class PrismaAccountRepository implements AccountRepository {
   async delete(accountId: string): Promise<void> {
     await prisma.user.update({
       where: { id: accountId },
-      data: { deletedAt: new Date(), status: "DELETED" }
+      data: { deletedAt: new Date(), status: AccountStatus.DELETED }
     });
   }
 
-  async findByEmail(email: string): Promise<AccountResponse | null> {
+  async findByEmail(email: string): Promise<Account | null> {
     const row = await prisma.user.findFirst({
       where: { email, deletedAt: null }
     });
     return row;
   }
 
-  async findById(id: string): Promise<AccountResponse | null> {
+  async findById(accountId: string): Promise<AccountWithoutCredentials | null> {
     const row = await prisma.user.findFirst({
-      where: { id, deletedAt: null },
+      where: { id: accountId, deletedAt: null },
       select: { ...accountWithoutCredentialsSelect }
     });
     return row;
@@ -71,8 +75,8 @@ export class PrismaAccountRepository implements AccountRepository {
 
   async findAll({
     status,
-    order = AccountSortOrder.ASC
-  }: ListAccountsParams): Promise<AccountResponse[]> {
+    order = SortOrder.ASC
+  }: ListAccountsParams): Promise<AccountWithoutCredentials[]> {
     const whereClause = status
       ? { status }
       : {

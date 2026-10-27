@@ -2,9 +2,7 @@ import { AccountDoesNotExistError } from "../../../domain/errors/account-does-no
 
 import type { AccountRepository } from "../../../domain/repositories/account.repository.js";
 import type { TransactionRepository } from "../../../domain/repositories/transaction.repository.js";
-import type { ListTransactionsByAccountIdDto } from "../../dtos/transactions/list-transactions-by-account-id.dto.js";
-
-const FIRST_PAGE = 1;
+import type { ListTransactionsByAccountIdInput } from "../../dtos/transactions/list-transactions-by-account-id.dto.js";
 
 export class ListTransactionsByAccountIdUseCase {
   constructor(
@@ -12,19 +10,21 @@ export class ListTransactionsByAccountIdUseCase {
     private readonly accountRepository: AccountRepository
   ) {}
 
-  async execute(input: ListTransactionsByAccountIdDto) {
+  private readonly FIRST_PAGE = 1;
+
+  async execute(input: ListTransactionsByAccountIdInput) {
     const { accountId, page, limit } = input;
 
-    const accountExists = await this.accountRepository.findById(accountId);
+    const existingAccount = await this.accountRepository.findById(accountId);
 
-    if (!accountExists) throw new AccountDoesNotExistError(accountId);
+    if (!existingAccount) throw new AccountDoesNotExistError(accountId);
 
     const { items, total } =
       await this.transactionRepository.listByAccountId(input);
 
     const totalPages = Math.ceil(total / limit);
     const hasNextPage = page < totalPages;
-    const hasPreviousPage = page > FIRST_PAGE;
+    const hasPreviousPage = page > this.FIRST_PAGE;
 
     return {
       transactions: items,
@@ -36,7 +36,7 @@ export class ListTransactionsByAccountIdUseCase {
         hasPreviousPage,
         nextPage: hasNextPage ? page + 1 : null,
         previousPage: hasPreviousPage ? page - 1 : null,
-        firstPage: hasPreviousPage ? FIRST_PAGE : null,
+        firstPage: hasPreviousPage ? this.FIRST_PAGE : null,
         lastPage: hasNextPage ? totalPages : null
       }
     };

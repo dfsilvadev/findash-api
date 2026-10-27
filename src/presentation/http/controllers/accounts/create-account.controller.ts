@@ -3,7 +3,7 @@ import { createAccountBodySchema } from "../../validators/accounts/create-accoun
 import { toHttpResponse } from "../../errors/http-error-mapper.js";
 
 import type { CreateAccountUseCase } from "../../../../application/use-cases/accounts/create-account.use-case.js";
-import type { Controller } from "../../../../domain/entities/controller.interface.js";
+import type { Controller } from "../../protocols/controller.js";
 import type { HttpRequest, HttpResponse } from "../../types/http-types.js";
 
 export class CreateAccountController implements Controller {

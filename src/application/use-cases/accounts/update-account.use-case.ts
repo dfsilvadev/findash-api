@@ -1,46 +1,39 @@
+import { AccountStatus } from "../../../domain/entities/account.entity.js";
 import { AccountDoesNotExistError } from "../../../domain/errors/account-does-not-exist.error.js";
-import { CanNotUpdateSuspendedAccountError } from "../../../domain/errors/can-not-update-suspended-account.error.js";
+import { CannotUpdateSuspendedAccountError } from "../../../domain/errors/cannot-update-suspended-account.error.js";
 import { EmailAlreadyInUseError } from "../../../domain/errors/email-already-in-use.error.js";
 
+import type { AccountWithoutCredentials } from "../../../domain/entities/account.entity.js";
 import type {
-  AccountResponse,
-  UpdateAccountBodyInput
-} from "../../../domain/entities/account.entity.js";
-import type { AccountRepository } from "../../../domain/repositories/account.repository.js";
-import type {
-  UpdateAccountInputDto,
-  AccountId
-} from "../../dtos/accounts/update-account.dto.js";
+  AccountRepository,
+  UpdateAccountData
+} from "../../../domain/repositories/account.repository.js";
+import type { UpdateAccountInput } from "../../dtos/accounts/update-account.dto.js";
 
 export class UpdateAccountUseCase {
   constructor(private readonly accountRepository: AccountRepository) {}
 
-  async execute(
-    id: AccountId,
-    input: UpdateAccountInputDto
-  ): Promise<AccountResponse> {
-    const existingAccount = await this.accountRepository.findById(id);
+  async execute(input: UpdateAccountInput): Promise<AccountWithoutCredentials> {
+    const { accountId, firstName, lastName, email } = input;
 
-    if (!existingAccount) throw new AccountDoesNotExistError(id);
+    const existingAccount = await this.accountRepository.findById(accountId);
 
-    if (existingAccount.status === "SUSPENDED")
-      throw new CanNotUpdateSuspendedAccountError(
-        "Cannot update suspended account"
-      );
+    if (!existingAccount) throw new AccountDoesNotExistError(accountId);
 
-    const { firstName, lastName, email } = input;
+    if (existingAccount.status === AccountStatus.SUSPENDED)
+      throw new CannotUpdateSuspendedAccountError(accountId);
 
     if (email !== undefined && email !== existingAccount.email) {
       const existingAccount = await this.accountRepository.findByEmail(email);
       if (existingAccount) throw new EmailAlreadyInUseError(email);
     }
 
-    const changes: UpdateAccountBodyInput = {
+    const changes: UpdateAccountData = {
       ...(firstName !== undefined && { firstName }),
       ...(lastName !== undefined && { lastName }),
       ...(email !== undefined && { email })
     };
 
-    return this.accountRepository.update(id, changes);
+    return this.accountRepository.update(accountId, changes);
   }
 }

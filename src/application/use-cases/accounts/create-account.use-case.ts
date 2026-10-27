@@ -2,7 +2,7 @@ import { AccountAlreadyExistsError } from "../../../domain/errors/account-alread
 
 import type { AccountRepository } from "../../../domain/repositories/account.repository.js";
 import type { PasswordHasherService } from "../../../domain/services/password-hasher.service.js";
-import type { CreateAccountBodyDto } from "../../dtos/accounts/create-account.dto.js";
+import type { CreateAccountInput } from "../../dtos/accounts/create-account.dto.js";
 
 export class CreateAccountUseCase {
   constructor(
@@ -10,18 +10,16 @@ export class CreateAccountUseCase {
     private readonly passwordHasher: PasswordHasherService
   ) {}
 
-  async execute(input: CreateAccountBodyDto) {
+  async execute(input: CreateAccountInput) {
+    const { password, ...accountData } = input;
     const existingAccount = await this.accountRepository.findByEmail(
-      input.email
+      accountData.email
     );
 
-    if (existingAccount) throw new AccountAlreadyExistsError(input.email);
+    if (existingAccount) throw new AccountAlreadyExistsError(accountData.email);
 
-    const hashedPassword = await this.passwordHasher.hash(input.password);
+    const passwordHash = await this.passwordHasher.hash(password);
 
-    await this.accountRepository.create({
-      ...input,
-      password: hashedPassword
-    });
+    await this.accountRepository.create({ ...accountData, passwordHash });
   }
 }

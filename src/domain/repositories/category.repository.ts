@@ -1,10 +1,23 @@
 import type {
-  CategoryOwnerKey,
-  CategoryResponse,
-  CreateCategoryInput
+  Category,
+  CategoryAssetClass,
+  CategoryType
 } from "../entities/category.entity.js";
 
+export interface CreateCategoryData {
+  name: string;
+  description?: string;
+  type: CategoryType;
+  assetClass?: CategoryAssetClass;
+  accountId: string;
+}
+
+export interface CategoryOwnerKey {
+  categoryId: string;
+  accountId: string;
+}
+
 export interface CategoryRepository {
-  create(input: CreateCategoryInput): Promise<CategoryResponse>;
-  findByIdAndAccountId(key: CategoryOwnerKey): Promise<CategoryResponse | null>;
+  create(data: CreateCategoryData): Promise<Category>;
+  findByIdAndAccountId(key: CategoryOwnerKey): Promise<Category | null>;
 }

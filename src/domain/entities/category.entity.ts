@@ -1,28 +1,23 @@
-export type CategoryType = "INCOME" | "EXPENSE" | "INVESTMENT";
+import type { FinancialType } from "../shared/financial-type.js";
 
-export type AssetClass = "FIXED_INCOME" | "VARIABLE_INCOME";
+export type CategoryType = FinancialType;
 
-export interface CreateCategoryInput {
-  name: string;
-  description?: string;
-  type: CategoryType;
-  assetClass?: AssetClass;
-  accountId: string;
-}
+export const CategoryAssetClass = {
+  FIXED_INCOME: "FIXED_INCOME",
+  VARIABLE_INCOME: "VARIABLE_INCOME"
+} as const;
 
-export interface CategoryOwnerKey {
-  categoryId: string;
-  accountId: string;
-}
+export type CategoryAssetClass =
+  (typeof CategoryAssetClass)[keyof typeof CategoryAssetClass];
 
-export interface CategoryResponse {
+export interface Category {
   id: string;
   name: string;
-  description?: string | null;
+  description: string | null;
   type: CategoryType;
-  assetClass?: AssetClass | null;
+  assetClass: CategoryAssetClass | null;
   accountId: string;
   createdAt: Date;
   updatedAt: Date;
-  archivedAt?: Date | null;
+  archivedAt: Date | null;
 }

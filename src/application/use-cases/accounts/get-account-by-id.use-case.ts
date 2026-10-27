@@ -1,16 +1,19 @@
 import { AccountDoesNotExistError } from "../../../domain/errors/account-does-not-exist.error.js";
 
-import type { PrismaAccountRepository } from "../../../infrastructure/persistence/prisma/repositories/prisma-account.repository.js";
-import type { AccountResponseDto } from "../../dtos/accounts/get-account-by-id.dto.js";
+import type { AccountWithoutCredentials } from "../../../domain/entities/account.entity.js";
+import type { AccountRepository } from "../../../domain/repositories/account.repository.js";
+import type { GetAccountByIdInput } from "../../dtos/accounts/get-account-by-id.dto.js";
 
 export class GetAccountByIdUseCase {
-  constructor(private readonly accountRepository: PrismaAccountRepository) {}
+  constructor(private readonly accountRepository: AccountRepository) {}
 
-  async execute(accountId: string): Promise<AccountResponseDto> {
-    const foundAccount = await this.accountRepository.findById(accountId);
+  async execute({
+    accountId
+  }: GetAccountByIdInput): Promise<AccountWithoutCredentials> {
+    const account = await this.accountRepository.findById(accountId);
 
-    if (!foundAccount) throw new AccountDoesNotExistError(accountId);
+    if (!account) throw new AccountDoesNotExistError(accountId);
 
-    return foundAccount;
+    return account;
   }
 }

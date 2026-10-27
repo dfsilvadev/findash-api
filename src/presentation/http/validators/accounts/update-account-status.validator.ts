@@ -1,16 +1,18 @@
 import { z } from "zod";
 
-export const updateAccountStatusValidator = z.object({
-  status: z.enum(["ACTIVE", "SUSPENDED"])
+import { AccountStatus } from "../../../../domain/entities/account.entity.js";
+
+export const updateAccountStatusBodySchema = z.object({
+  status: z.enum([AccountStatus.ACTIVE, AccountStatus.SUSPENDED])
 });
 
-export const updateAccountStatusParamsValidator = z.object({
+export const updateAccountStatusParamsSchema = z.object({
   accountId: z.uuid("Invalid account ID")
 });
 
 export type UpdateAccountStatusParams = z.infer<
-  typeof updateAccountStatusParamsValidator
+  typeof updateAccountStatusParamsSchema
 >;
 export type UpdateAccountStatusBody = z.infer<
-  typeof updateAccountStatusValidator
+  typeof updateAccountStatusBodySchema
 >;

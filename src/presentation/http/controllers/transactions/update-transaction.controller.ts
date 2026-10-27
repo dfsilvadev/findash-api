@@ -1,12 +1,12 @@
 import {
-  updateTransactionParamsValidator,
-  updateTransactionValidator
+  updateTransactionParamsSchema,
+  updateTransactionSchema
 } from "../../validators/transactions/update-transaction.validator.js";
 
 import { toHttpResponse } from "../../errors/http-error-mapper.js";
 
 import type { UpdateTransactionUseCase } from "../../../../application/use-cases/transactions/update-transaction.use-case.js";
-import type { Controller } from "../../../../domain/entities/controller.interface.js";
+import type { Controller } from "../../protocols/controller.js";
 import type { HttpRequest, HttpResponse } from "../../types/http-types.js";
 
 export class UpdateTransactionController implements Controller {
@@ -16,15 +16,22 @@ export class UpdateTransactionController implements Controller {
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const params = updateTransactionParamsValidator.parse(request.params);
-      const changes = updateTransactionValidator.parse(request.body);
+      const params = updateTransactionParamsSchema.parse(request.params);
+      const schema = updateTransactionSchema.parse(request.body);
 
       const transaction = await this.updateTransactionUseCase.execute({
-        ...changes,
+        ...schema,
         ...params
       });
 
-      return { statusCode: 200, body: { transaction } };
+      return {
+        statusCode: 200,
+        body: {
+          transaction,
+          code: "TRANSACTION_UPDATED",
+          message: "Transaction updated successfully"
+        }
+      };
     } catch (error) {
       return toHttpResponse(error);
     }

@@ -1,12 +1,12 @@
 import { toHttpResponse } from "../../errors/http-error-mapper.js";
 
 import {
-  updateAccountStatusParamsValidator,
-  updateAccountStatusValidator
+  updateAccountStatusBodySchema,
+  updateAccountStatusParamsSchema
 } from "../../validators/accounts/update-account-status.validator.js";
 
 import type { UpdateAccountStatusUseCase } from "../../../../application/use-cases/accounts/update-account-status.use-case.js";
-import type { Controller } from "../../../../domain/entities/controller.interface.js";
+import type { Controller } from "../../protocols/controller.js";
 import type { HttpRequest, HttpResponse } from "../../types/http-types.js";
 
 export class UpdateAccountStatusController implements Controller {
@@ -17,17 +17,16 @@ export class UpdateAccountStatusController implements Controller {
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
       const { params, body } = request;
+      const { accountId } = updateAccountStatusParamsSchema.parse(params);
+      const { status } = updateAccountStatusBodySchema.parse(body);
+      await this.updateAccountStatusUseCase.execute({ accountId, status });
 
-      const { accountId } = updateAccountStatusParamsValidator.parse(params);
-      const { status } = updateAccountStatusValidator.parse(body);
-
-      const result = await this.updateAccountStatusUseCase.execute(
-        accountId,
-        status
-      );
       return {
         statusCode: 200,
-        body: result
+        body: {
+          code: "ACCOUNT_STATUS_UPDATED",
+          message: "Account status updated successfully"
+        }
       };
     } catch (error) {
       return toHttpResponse(error);

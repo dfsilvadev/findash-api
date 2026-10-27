@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-import { AccountSortOrder } from "../../../../domain/entities/account.entity.js";
-import { UserStatus } from "../../../../generated/prisma/client.js";
+import { AccountStatus } from "../../../../domain/entities/account.entity.js";
+import { SortOrder } from "../../../../domain/shared/sort-order.js";
 
 export const listAccountsValidator = z.object({
-  status: z.enum(UserStatus).optional(),
-  order: z.enum(AccountSortOrder).optional().default(AccountSortOrder.DESC)
+  status: z.enum(AccountStatus).optional(),
+  order: z.enum(SortOrder).optional().default(SortOrder.DESC)
 });
 
 export type ListAccountsValidator = z.infer<typeof listAccountsValidator>;

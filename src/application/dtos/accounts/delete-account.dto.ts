@@ -1,3 +1,3 @@
-export type AccountIdToDeleteDto = {
-  accountId: string;
-};
+export interface DeleteAccountInput {
+  accountId: string; // TODO: Use authentication context instead of passing accountId directly
+}

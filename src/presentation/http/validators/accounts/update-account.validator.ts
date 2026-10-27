@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const updateAccountBodyValidator = z
+export const updateAccountBodySchema = z
   .object({
     firstName: z
       .string()
@@ -12,15 +12,14 @@ export const updateAccountBodyValidator = z
       .optional(),
     email: z.email().optional()
   })
+  .partial()
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field must be provided"
   });
 
-export const updateAccountIdValidator = z.object({
+export const updateAccountIdSchema = z.object({
   accountId: z.uuid("Invalid account ID")
 });
 
-export type UpdateAccountBodyValidator = z.infer<
-  typeof updateAccountBodyValidator
->;
-export type UpdateAccountIdValidator = z.infer<typeof updateAccountIdValidator>;
+export type UpdateAccountBodySchema = z.infer<typeof updateAccountBodySchema>;
+export type UpdateAccountIdSchema = z.infer<typeof updateAccountIdSchema>;

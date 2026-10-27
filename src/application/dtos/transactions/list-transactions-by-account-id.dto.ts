@@ -1,8 +1,8 @@
-export type SortOrder = "asc" | "desc";
+import type { SortOrder } from "../../../domain/shared/sort-order.js";
 
-export interface ListTransactionsByAccountIdDto {
+export interface ListTransactionsByAccountIdInput {
   accountId: string; // TODO: Use authentication context instead of passing accountId directly
   page: number;
   limit: number;
-  orderBy: SortOrder;
+  order: SortOrder;
 }
