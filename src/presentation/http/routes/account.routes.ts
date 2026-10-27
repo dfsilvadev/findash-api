@@ -13,9 +13,9 @@ import { makeUpdateAccountController } from "../../factories/accounts/make-updat
 export const accountRouter: Router = Router();
 
 /**
- * Routes for account-related operations
+ * Routes for account-related queries
  */
-accountRouter.get("/", routerAdapter(makeListAccountsController()));
+accountRouter.get("/list", routerAdapter(makeListAccountsController()));
 accountRouter.get("/:accountId", routerAdapter(makeGetAccountByIdController()));
 accountRouter.get(
   "/:accountId/balance",
@@ -23,14 +23,9 @@ accountRouter.get(
 );
 
 /**
- * Route for creating a new account
+ * Routes for account-related creation and updates
  */
 accountRouter.post("/", routerAdapter(makeCreateAccountController()));
-
-/**
- * Route for updating an account
- * Route for updating an account's status
- */
 accountRouter.patch(
   "/:accountId",
   routerAdapter(makeUpdateAccountController())
@@ -41,7 +36,7 @@ accountRouter.patch(
 );
 
 /**
- * Route for deleting an account
+ * Route for account-related deletion
  */
 accountRouter.delete(
   "/:accountId",
