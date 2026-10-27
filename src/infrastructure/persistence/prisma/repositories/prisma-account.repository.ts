@@ -11,6 +11,7 @@ import type {
 } from "../../../../domain/entities/account.entity.js";
 import type {
   AccountRepository,
+  AccountTransactionTotals,
   CreateAccountData,
   ListAccountsParams,
   UpdateAccountData
@@ -92,5 +93,28 @@ export class PrismaAccountRepository implements AccountRepository {
     });
 
     return rows;
+  }
+
+  async getTotalsByType(accountId: string): Promise<AccountTransactionTotals> {
+    const groups = await prisma.transaction.groupBy({
+      by: ["type"],
+      where: { accountId },
+      _sum: { amount: true }
+    });
+
+    const totals: AccountTransactionTotals = {
+      income: 0,
+      expenses: 0,
+      investments: 0
+    };
+
+    for (const group of groups) {
+      const sum = group._sum.amount?.toNumber() ?? 0;
+      if (group.type === "INCOME") totals.income = sum;
+      if (group.type === "EXPENSE") totals.expenses = sum;
+      if (group.type === "INVESTMENT") totals.investments = sum;
+    }
+
+    return totals;
   }
 }

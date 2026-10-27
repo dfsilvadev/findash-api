@@ -22,6 +22,12 @@ export interface ListAccountsParams {
   order?: SortOrder;
 }
 
+export interface AccountTransactionTotals {
+  income: number;
+  expenses: number;
+  investments: number;
+}
+
 export interface AccountRepository {
   create(data: CreateAccountData): Promise<AccountWithoutCredentials>;
   update(
@@ -36,4 +42,5 @@ export interface AccountRepository {
   findByEmail(email: string): Promise<Account | null>;
   findById(accountId: string): Promise<AccountWithoutCredentials | null>;
   findAll(params: ListAccountsParams): Promise<AccountWithoutCredentials[]>;
+  getTotalsByType(accountId: string): Promise<AccountTransactionTotals>;
 }

@@ -4,6 +4,7 @@ import { routerAdapter } from "../adapters/router.adapter.js";
 
 import { makeCreateAccountController } from "../../factories/accounts/make-create-account.controller.js";
 import { makeDeleteAccountController } from "../../factories/accounts/make-delete-account.controller.js";
+import { makeGetAccountBalanceController } from "../../factories/accounts/make-get-account-balance.controller.js";
 import { makeGetAccountByIdController } from "../../factories/accounts/make-get-account.controller.js";
 import { makeListAccountsController } from "../../factories/accounts/make-list-accounts.controller.js";
 import { makeUpdateAccountStatusController } from "../../factories/accounts/make-update-account-status.controller.js";
@@ -16,6 +17,10 @@ export const accountRouter: Router = Router();
  */
 accountRouter.get("/", routerAdapter(makeListAccountsController()));
 accountRouter.get("/:accountId", routerAdapter(makeGetAccountByIdController()));
+accountRouter.get(
+  "/:accountId/balance",
+  routerAdapter(makeGetAccountBalanceController())
+);
 
 /**
  * Route for creating a new account
