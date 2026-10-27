@@ -1,7 +1,12 @@
-export interface CreateCategoryInputDto {
+import type {
+  CategoryAssetClass,
+  CategoryType
+} from "../../../domain/entities/category.entity.js";
+
+export interface CreateCategoryInput {
   name: string;
   description?: string;
-  type: "INCOME" | "EXPENSE" | "INVESTMENT";
-  assetClass?: "FIXED_INCOME" | "VARIABLE_INCOME";
-  userId: string; // TODO: Use authentication context instead of passing userId directly
+  type: CategoryType;
+  assetClass?: CategoryAssetClass;
+  accountId: string; // TODO: Use authentication context instead of passing accountId directly
 }

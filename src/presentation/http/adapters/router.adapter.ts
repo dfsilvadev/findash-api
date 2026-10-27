@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import type { Controller } from "../../../domain/entities/controller.interface.js";
+import type { Controller } from "../protocols/controller.js";
 import type { HttpRequest } from "../types/http-types.js";
 
 export function routerAdapter(controller: Controller) {

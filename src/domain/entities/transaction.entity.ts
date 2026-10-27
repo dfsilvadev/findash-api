@@ -1,26 +1,16 @@
-import type { Prisma } from "../../generated/prisma/client.js";
+import type { FinancialType } from "../shared/financial-type.js";
 
-export type TransactionResponse = {
+export type TransactionType = FinancialType;
+
+export interface Transaction {
   id: string;
   title: string;
   description: string | null;
-  amount: Prisma.Decimal;
-  type: TransactionType;
-  date: Date;
-  userId: string;
-  categoryId: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-export type TransactionType = "INCOME" | "EXPENSE" | "INVESTMENT";
-
-export interface CreateTransactionInput {
-  title: string;
-  description?: string;
   amount: number;
   type: TransactionType;
   date: Date;
-  userId: string;
+  accountId: string;
   categoryId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

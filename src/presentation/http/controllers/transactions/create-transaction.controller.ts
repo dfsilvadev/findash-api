@@ -1,9 +1,9 @@
 import { toHttpResponse } from "../../errors/http-error-mapper.js";
 
-import { createTransactionValidator } from "../../validators/transactions/create-transaction.validator.js";
+import { createTransactionSchema } from "../../validators/transactions/create-transaction.validator.js";
 
 import type { CreateTransactionUseCase } from "../../../../application/use-cases/transactions/create-transaction.use-case.js";
-import type { Controller } from "../../../../domain/entities/controller.interface.js";
+import type { Controller } from "../../protocols/controller.js";
 import type { HttpRequest, HttpResponse } from "../../types/http-types.js";
 
 export class CreateTransactionController implements Controller {
@@ -13,13 +13,15 @@ export class CreateTransactionController implements Controller {
 
   async handle(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const dto = createTransactionValidator.parse(request.body);
-
-      await this.createTransactionUseCase.execute(dto);
+      const schema = createTransactionSchema.parse(request.body);
+      await this.createTransactionUseCase.execute(schema);
 
       return {
         statusCode: 201,
-        body: { message: "Transaction created successfully" }
+        body: {
+          code: "TRANSACTION_CREATED",
+          message: "Transaction created successfully"
+        }
       };
     } catch (error) {
       return toHttpResponse(error);
