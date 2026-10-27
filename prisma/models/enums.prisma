@@ -1,9 +1,9 @@
-enum UserStatus {
+enum AccountStatus {
   ACTIVE
   SUSPENDED
   DELETED
 
-  @@map("user_status")
+  @@map("account_status")
 }
 
 enum CategoryType {
