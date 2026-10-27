@@ -1,4 +1,4 @@
-import type { UserSelect } from "../../../../../generated/prisma/models.js";
+import type { AccountSelect } from "../../../../../generated/prisma/models.js";
 
 export const accountWithoutCredentialsSelect = {
   id: true,
@@ -9,4 +9,4 @@ export const accountWithoutCredentialsSelect = {
   createdAt: true,
   updatedAt: true,
   deletedAt: true
-} satisfies UserSelect;
+} satisfies AccountSelect;

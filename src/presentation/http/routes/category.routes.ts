@@ -7,6 +7,6 @@ import { makeCreateCategoryController } from "../../factories/categories/make-cr
 export const categoryRouter: Router = Router();
 
 /**
- * Create a new category
+ * Routes for category-related queries
  */
 categoryRouter.post("/", routerAdapter(makeCreateCategoryController()));

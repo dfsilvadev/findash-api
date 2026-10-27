@@ -10,7 +10,7 @@ import { makeUpdateTransactionController } from "../../factories/transactions/ma
 export const transactionRouter: Router = Router();
 
 /**
- * Route to list transactions by account ID
+ * Routes for transaction-related queries
  */
 transactionRouter.get(
   "/list",
@@ -18,19 +18,15 @@ transactionRouter.get(
 );
 
 /**
- * Route to create a new transaction
+ * Routes for transaction-related creation and updates
  */
 transactionRouter.post("/", routerAdapter(makeCreateTransactionController()));
-
-/**
- * Route to update an existing transaction
- */
 transactionRouter.patch(
   "/:accountId/:transactionId",
   routerAdapter(makeUpdateTransactionController())
 );
 
 /**
- * Route to delete a transaction
+ * Routes for transaction-related deletions
  */
 transactionRouter.delete("/", routerAdapter(makeDeleteTransactionController()));

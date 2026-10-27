@@ -6,19 +6,11 @@ import type {
   CategoryRepository,
   CreateCategoryData
 } from "../../../../domain/repositories/category.repository.js";
-import type { Category as CategoryRow } from "../../../../generated/prisma/client.js";
-
-// The database column is still user_id (Prisma field userId); the domain calls it accountId
-function toCategory({ userId, ...row }: CategoryRow): Category {
-  return { ...row, accountId: userId };
-}
 
 export class PrismaCategoryRepository implements CategoryRepository {
-  async create({ accountId, ...data }: CreateCategoryData): Promise<Category> {
-    const row = await prisma.category.create({
-      data: { ...data, userId: accountId }
-    });
-    return toCategory(row);
+  async create(data: CreateCategoryData): Promise<Category> {
+    const row = await prisma.category.create({ data });
+    return row;
   }
 
   async findByIdAndAccountId({
@@ -26,8 +18,8 @@ export class PrismaCategoryRepository implements CategoryRepository {
     accountId
   }: CategoryOwnerKey): Promise<Category | null> {
     const row = await prisma.category.findFirst({
-      where: { id: categoryId, userId: accountId }
+      where: { id: categoryId, accountId }
     });
-    return row ? toCategory(row) : null;
+    return row;
   }
 }

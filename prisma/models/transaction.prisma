@@ -7,13 +7,13 @@ model Transaction {
   date        DateTime     @db.Timestamptz(3)
   createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt   DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
-  userId      String       @map("user_id") @db.Uuid
+  accountId   String       @map("account_id") @db.Uuid
   categoryId  String       @map("category_id") @db.Uuid
 
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  category Category @relation(fields: [categoryId, userId, type], references: [id, userId, type], onDelete: NoAction, onUpdate: NoAction)
+  account  Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId, accountId, type], references: [id, accountId, type], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([userId, date(sort: Desc), id(sort: Desc)])
+  @@index([accountId, date(sort: Desc), id(sort: Desc)])
   @@index([categoryId])
   @@map("transactions")
 }
